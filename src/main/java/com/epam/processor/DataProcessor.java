@@ -79,25 +79,7 @@ public class DataProcessor {
      * dry -> 5
      * @return
      */
-    public Map<String, Long> getCountByRoadSurfaceCondition7(){
-        return countAccidentsByRoadSurfaceCondition();
-    }
-
-    /**
-     * find the weather conditions which caused the top 3 number of incidents
-     * as example if there were 10 accidence in rain, 5 in snow, 6 in sunny and 1 in foggy, then your result list should contain {rain, sunny, snow} - top three in decreasing order
-     * @return
-     */
-	public List<String> getTopThreeWeatherCondition7() {
-
-		Map<String, Long> countByWeather = countAccidentsByWeatherCondition();
-
-		TreeMap<Long, String> sortedCountsByWeather = sortAccidentsCountsByWeather(countByWeather);
-
-		return getTopThreeWeatherConditionFromSortedMap(sortedCountsByWeather);
-	}
-
-	private Map<String, Long> countAccidentsByRoadSurfaceCondition() {
+	public Map<String, Long> getCountByRoadSurfaceCondition7() {
 
 		Map<String, Long> accidentsCountByRoadSurface = new HashMap<>();
 		String roadSurfaceCondition = null;
@@ -116,6 +98,20 @@ public class DataProcessor {
 			}
 		}
 		return accidentsCountByRoadSurface;
+	}
+
+    /**
+     * find the weather conditions which caused the top 3 number of incidents
+     * as example if there were 10 accidence in rain, 5 in snow, 6 in sunny and 1 in foggy, then your result list should contain {rain, sunny, snow} - top three in decreasing order
+     * @return
+     */
+	public List<String> getTopThreeWeatherCondition7() {
+
+		Map<String, Long> countByWeather = countAccidentsByWeatherCondition();
+
+		TreeMap<Long, String> sortedCountsByWeather = sortAccidentsCountsByWeather(countByWeather);
+
+		return getTopThreeWeatherConditionFromSortedMap(sortedCountsByWeather);
 	}
 
 	private Map<String, Long> countAccidentsByWeatherCondition() {
