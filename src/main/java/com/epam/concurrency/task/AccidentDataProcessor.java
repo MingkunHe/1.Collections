@@ -39,7 +39,7 @@ public class AccidentDataProcessor {
 	private Logger log = LoggerFactory.getLogger(AccidentDataProcessor.class);
 
 	private static final boolean RUN_PARALLEL = true;
-	private static final boolean ENRICH_ASYNC = true; // set TRUE for optional task, otherwise FALSE.
+	private static final boolean ENRICH_ASYNC = false; // set TRUE for optional task, otherwise FALSE.
 	private static final int THREAD_POOL_SIZE = 5;
 
 	public void init() {
