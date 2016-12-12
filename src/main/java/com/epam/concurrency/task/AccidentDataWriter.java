@@ -67,8 +67,8 @@ public class AccidentDataWriter {
         record.add(roadAccidentDetails.getAccidentSeverity());
         record.add(String.valueOf(roadAccidentDetails.getNumberOfVehicles()));
         record.add(String.valueOf(roadAccidentDetails.getNumberOfCasualties()));
-        record.add(roadAccidentDetails.getDate().toString());
-        record.add(roadAccidentDetails.getTime().toString());
+		record.add(roadAccidentDetails.getDate() != null ? roadAccidentDetails.getDate().toString() : null);
+        record.add(roadAccidentDetails.getTime() != null ? roadAccidentDetails.getTime().toString() : null);
         record.add(roadAccidentDetails.getDistrictAuthority());
         record.add(roadAccidentDetails.getLightConditions());
         record.add(roadAccidentDetails.getWeatherConditions());

@@ -38,27 +38,41 @@ public class AccidentDataProcessor {
 
 	private Logger log = LoggerFactory.getLogger(AccidentDataProcessor.class);
 
-	private static final boolean RUN_PARALLEL = true;
-	private static final boolean ENRICH_ASYNC = false; // set TRUE for optional task, otherwise FALSE.
+	private boolean parallelRun = true;
+	private boolean asynchronousEnrich = false; // set TRUE for optional task, otherwise FALSE.
 	private static final int THREAD_POOL_SIZE = 5;
 
+	public void setParallelRun(boolean parallelRun) {
+		this.parallelRun = parallelRun;
+		this.accidentDataEnricher.init(parallelRun && asynchronousEnrich);
+	}
+
+	public void setAsynchronouslyEnrich(boolean asynchronousEnrich) {
+		this.asynchronousEnrich = asynchronousEnrich;
+		this.accidentDataEnricher.init(parallelRun && asynchronousEnrich);
+	}
+	
 	public void init() {
 		fileQueue.add(FILE_PATH_1);
 		// fileQueue.add(FILE_PATH_2);
 		// fileQueue.add(FILE_PATH_3);
 		// fileQueue.add(FILE_PATH_4);
 
-		accidentDataEnricher.init(RUN_PARALLEL && ENRICH_ASYNC); // in case run serial and enrich asynchronously.
+		accidentDataEnricher.init(parallelRun && asynchronousEnrich); // in case run serial and enrich asynchronously.
 		accidentDataWriter.init(OUTPUT_FILE_PATH);
+	}
+
+	public void destroy() {
+		accidentDataWriter.close();
 	}
 
 	public void process() {
 		for (String accidentDataFile : fileQueue) {
 			log.info("Starting to process {} file ", accidentDataFile);
 			accidentDataReader.init(DATA_PROCESSING_BATCH_SIZE, accidentDataFile);
-			if (!RUN_PARALLEL) {
+			if (!parallelRun) {
 				processFile();
-			} else if (!ENRICH_ASYNC) {
+			} else if (!asynchronousEnrich) {
 				parallelProcessFile();
 			} else {
 				parallelProcessFileEnrichingAsync();
